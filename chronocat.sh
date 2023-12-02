@@ -141,7 +141,7 @@ vnc_link="http://$ip:$VNCPORT/"
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
 # 静默启动容器
-docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker >> $container_name-docker.log 2>&1
+docker run -it -d -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker >> $container_name-docker.log 2>&1
 
 print_message "ChronoCat 容器启动完成" "$GREEN"
 

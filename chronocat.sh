@@ -137,9 +137,15 @@ ip=$(curl -s https://api.ipify.org)
 
 # 拼接 VNC 链接
 vnc_link="http://$ip:$VNCPORT/"
-print_message "VNC 链接: $vnc_link" "$GREEN"
-print_message "请使用浏览器访问 VNC 链接，使用 VNC 服务密码登录。" "$GREEN"
 
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
-docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker
+docker run -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker
+
+print_message "ChronoCat 容器启动完成" "$GREEN"
+
+# 等待用户VNC操作完成
+read -p "请在浏览器中打开VNC链接：$vnc_link，登录NTQQ后，按下回车键继续。" confirm
+
+# cat抓取容器中/wine/drive_c/users/root/.chronocat/config/config.yaml文件
+docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/config.yaml > config.yaml

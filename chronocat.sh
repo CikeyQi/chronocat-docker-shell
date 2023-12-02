@@ -148,5 +148,12 @@ print_message "ChronoCat 容器启动完成" "$GREEN"
 # 等待用户VNC操作完成
 read -p "请在浏览器中打开VNC链接：$vnc_link，登录NTQQ后，按下回车键继续。" confirm
 
-# cat抓取容器中/wine/drive_c/users/root/.chronocat/config/config.yaml文件
-docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/config.yaml > config.yaml
+# cat抓取容器中的token
+red_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/chronocat.yml | awk '/- type: red/{getline; if ($1 == "token:") print $2}' | head -n 1)
+
+satori_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/chronocat.yml | awk '/- type: satori/{getline; if ($1 == "token:") print $2}' | head -n 1)
+
+print_message "=========================" "$GREEN"
+echo -e "\033[32mRed Token:\033[0m \033[31m$red_token\033[0m"
+echo -e "\033[32mSatori Token:\033[0m \033[31m$satori_token\033[0m"
+print_message "=========================" "$GREEN"

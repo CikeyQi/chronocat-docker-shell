@@ -13,7 +13,6 @@ print_message() {
     echo -e "${color}${message}${RESET}"
 }
 
-# 函数：检查端口是否合法且被占用
 check_port() {
     local port=$1
     
@@ -39,6 +38,14 @@ check_port() {
     # 检查非安全端口
     if [ $port -lt 1024 ]; then
         print_message "警告：端口号 $port 不是安全端口。" "$YELLOW"
+    fi
+    
+    # 检查端口是否放行
+    iptables -L INPUT -n | grep -q ":$port"
+    if [ $? -eq 0 ]; then
+        print_message "端口号 $port 已放行。" "$GREEN"
+    else
+        print_message "端口号 $port 未放行。" "$RED"
     fi
 }
 

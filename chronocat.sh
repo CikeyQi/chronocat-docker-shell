@@ -125,6 +125,21 @@ echo -e "\033[32mVNC服务密码:\033[0m \033[31m$password\033[0m"
 echo -e "\033[32m容器名称:\033[0m \033[31m$container_name\033[0m"
 print_message "=========================" "$GREEN"
 
+# 等待用户确认
+read -p "请确认以上信息是否正确？[Y/n] " confirm
+if [[ $confirm != "Y" && $confirm != "y" ]]; then
+    print_message "用户取消操作，退出脚本。" "$RED"
+    exit 1
+fi
+
+# 获取公网 IP
+ip=$(curl -s https://api.ipify.org)
+
+# 拼接 VNC 链接
+vnc_link="http://$ip:$VNCPORT/"
+print_message "VNC 链接: $vnc_link" "$GREEN"
+print_message "请使用浏览器访问 VNC 链接，使用 VNC 服务密码登录。" "$GREEN"
+
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
 docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker

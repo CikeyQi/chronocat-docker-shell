@@ -6,32 +6,39 @@ GREEN="\e[32m"         # 绿色
 YELLOW="\e[33m"        # 黄色
 RESET="\e[0m"          # 重置颜色
 
+# 添加函数以显示不同颜色的消息
+print_message() {
+    local message="$1"
+    local color="$2"
+    echo -e "${color}${message}${RESET}"
+}
+
 # 函数：检查端口是否合法且被占用
 check_port() {
     local port=$1
     
     # 检查端口是否是一个正整数
     if ! [[ $port =~ ^[0-9]+$ ]]; then
-        echo "错误：端口号必须是一个正整数。"
+        print_message "错误：端口号必须是一个正整数。" "$RED"
         exit 1
     fi
     
     # 检查端口范围
     if [ $port -lt 1 ] || [ $port -gt 65535 ]; then
-        echo "错误：端口号必须在1和65535之间。"
+        print_message "错误：端口号必须在 1-65535 之间。" "$RED"
         exit 1
     fi
     
     # 检查端口是否被占用
     ss -nlt | awk '{print $4}' | grep -q ":$port$"
     if [ $? -eq 0 ]; then
-        echo "错误：端口号 $port 已经被占用。"
+        print_message "错误：端口号 $port 已被占用。" "$RED"
         exit 1
     fi
     
     # 检查非安全端口
     if [ $port -lt 1024 ]; then
-        echo "警告：端口号 $port 是非安全端口。"
+        print_message "警告：端口号 $port 不是安全端口。" "$YELLOW"
     fi
 }
 
@@ -50,7 +57,7 @@ VNCPORT=$port1
 RedPORT=$port2
 SatoriPORT=$port3
 
-echo "端口号验证通过。"
+print_message "端口号检查完成" "$GREEN"
 echo "noVNC服务端口号: $VNCPORT"
 echo "Red服务端口号: $RedPORT"
 echo "Satori服务端口号: $SatoriPORT"
@@ -83,12 +90,12 @@ else
     print_message "已安装 Docker 环境，跳过安装" "$GREEN"
 fi
 
-echo "正在拉取ChronoCat容器..."
+print_message "正在拉取 ChronoCat 镜像..." "$YELLOW"
 
 docker pull he0119/chronocat-docker
 
 read -p "请输入VNC服务密码: " password
 
-echo "正在启动ChronoCat容器..."
+print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
 docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password he0119/chronocat-docker

@@ -43,9 +43,22 @@ check_port() {
 }
 
 # 获取用户输入的端口号
-read -p "请输入noVNC服务端口号: " port1
-read -p "请输入Red服务端口号: " port2
-read -p "请输入Satori服务端口号: " port3
+read -p "请输入noVNC服务端口号(6080): " port1
+read -p "请输入Red服务端口号(15360): " port2
+read -p "请输入Satori服务端口号(5500): " port3
+
+# 检查输入是否为空，如果为空则使用默认值
+if [[ -z "$port1" ]]; then
+  port1=6080
+fi
+
+if [[ -z "$port2" ]]; then
+  port2=15360
+fi
+
+if [[ -z "$port3" ]]; then
+  port3=5500
+fi
 
 # 检查端口号是否合法且被占用
 check_port $port1
@@ -58,9 +71,11 @@ RedPORT=$port2
 SatoriPORT=$port3
 
 print_message "端口号检查完成" "$GREEN"
-echo "noVNC服务端口号: $VNCPORT"
-echo "Red服务端口号: $RedPORT"
-echo "Satori服务端口号: $SatoriPORT"
+print_message "====================" "$GREEN"
+echo -e "\033[32mnoVNC服务端口号:\033[0m \033[31m$VNCPORT\033[0m"
+echo -e "\033[32mRed服务端口号:\033[0m \033[31m$RedPORT\033[0m"
+echo -e "\033[32mSatori服务端口号:\033[0m \033[31m$SatoriPORT\033[0m"
+print_message "====================" "$GREEN"
 
 # 检查是否安装 Docker
 if ! command -v docker &> /dev/null; then

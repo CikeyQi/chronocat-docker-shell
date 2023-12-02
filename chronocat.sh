@@ -50,9 +50,9 @@ check_port() {
 }
 
 # 获取用户输入的端口号
-read -p "请输入noVNC服务端口号(6080): " port1
-read -p "请输入Red服务端口号(15360): " port2
-read -p "请输入Satori服务端口号(5500): " port3
+read -p "请输入noVNC服务端口号(默认6080): " port1
+read -p "请输入Red服务端口号(默认15360): " port2
+read -p "请输入Satori服务端口号(默认5500): " port3
 
 # 检查输入是否为空，如果为空则使用默认值
 if [[ -z "$port1" ]]; then
@@ -77,7 +77,7 @@ VNCPORT=$port1
 RedPORT=$port2
 SatoriPORT=$port3
 
-print_message "端口号检查完成" "$GREEN"
+print_message "端口号检查完成，如有异常请处理异常" "$GREEN"
 
 # 检查是否安装 Docker
 if ! command -v docker &> /dev/null; then
@@ -111,8 +111,8 @@ print_message "正在拉取 ChronoCat 镜像..." "$YELLOW"
 
 docker pull he0119/chronocat-docker
 
-read -p "请输入容器名称: " container_name
-read -p "请输入VNC服务密码: " password
+read -p "请输入容器名称(默认随机): " container_name
+read -p "请输入VNC服务密码(默认password): " password
 
 # 检查密码是否为空，如果为空则使用默认密码
 if [ -z "$password" ]; then
@@ -125,6 +125,7 @@ if [ -z "$container_name" ]; then
 fi
 
 print_message "=========================" "$GREEN"
+echo -e "\033[32请保存并牢记以下信息，它们只会显示一次\033[0m"
 echo -e "\033[32mnoVNC服务端口号:\033[0m \033[31m$VNCPORT\033[0m"
 echo -e "\033[32mRed服务端口号:\033[0m \033[31m$RedPORT\033[0m"
 echo -e "\033[32mSatori服务端口号:\033[0m \033[31m$SatoriPORT\033[0m"
@@ -150,10 +151,16 @@ print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 # 静默启动容器
 docker run -it -d -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker >> $container_name-docker.log 2>&1
 
+# 等待10秒
+sleep 10
 print_message "ChronoCat 容器启动完成" "$GREEN"
 
 # 等待用户VNC操作完成
-read -p "请在浏览器中打开VNC链接：$vnc_link，登录NTQQ后，按下回车键继续" confirm
+print_message "请在浏览器中打开VNC链接：" "$GREEN"
+print_message "=========================" "$GREEN"
+print_message "$vnc_link" "$RED"
+print_message "=========================" "$GREEN"
+read -p "登录NTQQ后，按下回车键继续" confirm
 
 # cat抓取容器中的token
 red_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/chronocat.yml | awk '/- type: red/{getline; if ($1 == "token:") print $2}' | head -n 1)
@@ -161,6 +168,7 @@ red_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chrono
 satori_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/chronocat.yml | awk '/- type: satori/{getline; if ($1 == "token:") print $2}' | head -n 1)
 
 print_message "=========================" "$GREEN"
+echo -e "\033[32请保存并牢记以下信息，它们只会显示一次\033[0m"
 echo -e "\033[32mRed链接:\033[0m \033[31mhttp://$ip:$RedPORT\033[0m"
 echo -e "\033[32mRed Token:\033[0m \033[31m$red_token\033[0m"
 echo -e "\033[32mSatori链接:\033[0m \033[31mhttp://$ip:$SatoriPORT\033[0m"

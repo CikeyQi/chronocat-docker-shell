@@ -71,11 +71,6 @@ RedPORT=$port2
 SatoriPORT=$port3
 
 print_message "端口号检查完成" "$GREEN"
-print_message "====================" "$GREEN"
-echo -e "\033[32mnoVNC服务端口号:\033[0m \033[31m$VNCPORT\033[0m"
-echo -e "\033[32mRed服务端口号:\033[0m \033[31m$RedPORT\033[0m"
-echo -e "\033[32mSatori服务端口号:\033[0m \033[31m$SatoriPORT\033[0m"
-print_message "====================" "$GREEN"
 
 # 检查是否安装 Docker
 if ! command -v docker &> /dev/null; then
@@ -121,6 +116,14 @@ fi
 if [ -z "$container_name" ]; then
   container_name=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 8 ; echo '')
 fi
+
+print_message "=========================" "$GREEN"
+echo -e "\033[32mnoVNC服务端口号:\033[0m \033[31m$VNCPORT\033[0m"
+echo -e "\033[32mRed服务端口号:\033[0m \033[31m$RedPORT\033[0m"
+echo -e "\033[32mSatori服务端口号:\033[0m \033[31m$SatoriPORT\033[0m"
+echo -e "\033[32mVNC服务密码:\033[0m \033[31m$password\033[0m"
+echo -e "\033[32m容器名称:\033[0m \033[31m$container_name\033[0m"
+print_message "=========================" "$GREEN"
 
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 

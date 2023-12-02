@@ -146,7 +146,7 @@ docker run -it -d -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PA
 print_message "ChronoCat 容器启动完成" "$GREEN"
 
 # 等待用户VNC操作完成
-read -p "请在浏览器中打开VNC链接：$vnc_link，登录NTQQ后，按下回车键继续。" confirm
+read -p "请在浏览器中打开VNC链接：$vnc_link，登录NTQQ后，按下回车键继续" confirm
 
 # cat抓取容器中的token
 red_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/chronocat.yml | awk '/- type: red/{getline; if ($1 == "token:") print $2}' | head -n 1)
@@ -154,6 +154,10 @@ red_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chrono
 satori_token=$(docker exec -it $container_name cat /wine/drive_c/users/root/.chronocat/config/chronocat.yml | awk '/- type: satori/{getline; if ($1 == "token:") print $2}' | head -n 1)
 
 print_message "=========================" "$GREEN"
+echo -e "\033[32mRed链接:\033[0m \033[31mhttp://$ip:$RedPORT\033[0m"
 echo -e "\033[32mRed Token:\033[0m \033[31m$red_token\033[0m"
+echo -e "\033[32mSatori链接:\033[0m \033[31mhttp://$ip:$SatoriPORT\033[0m"
 echo -e "\033[32mSatori Token:\033[0m \033[31m$satori_token\033[0m"
 print_message "=========================" "$GREEN"
+
+print_message "ChronoCat 安装完成" "$GREEN"

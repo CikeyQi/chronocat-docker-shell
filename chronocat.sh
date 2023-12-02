@@ -112,6 +112,16 @@ docker pull he0119/chronocat-docker
 read -p "请输入容器名称: " container_name
 read -p "请输入VNC服务密码: " password
 
+# 检查密码是否为空，如果为空则使用默认密码
+if [ -z "$password" ]; then
+  password="password"
+fi
+
+# 检查容器名称是否为空，如果为空则生成一个随机名称
+if [ -z "$container_name" ]; then
+  container_name=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 8 ; echo '')
+fi
+
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
 docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker

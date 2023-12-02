@@ -39,14 +39,6 @@ check_port() {
     if [ $port -lt 1024 ]; then
         print_message "警告：端口号 $port 不是安全端口。" "$YELLOW"
     fi
-    
-    # 检查端口是否放行
-    iptables -L INPUT -n | grep -q ":$port"
-    if [ $? -eq 0 ]; then
-        print_message "端口号 $port 已放行。" "$GREEN"
-    else
-        print_message "端口号 $port 未放行。" "$RED"
-    fi
 }
 
 # 获取用户输入的端口号

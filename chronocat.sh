@@ -109,8 +109,9 @@ print_message "正在拉取 ChronoCat 镜像..." "$YELLOW"
 
 docker pull he0119/chronocat-docker
 
+read -p "请输入容器名称: " container_name
 read -p "请输入VNC服务密码: " password
 
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
-docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password he0119/chronocat-docker
+docker run -it -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --name $container_name he0119/chronocat-docker

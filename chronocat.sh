@@ -41,6 +41,10 @@ check_port() {
     fi
 }
 
+print_message "欢迎使用 ChronoCat 一键安装脚本" "$GREEN"
+print_message "本脚本将自动安装 Docker 环境并拉取 ChronoCat 镜像" "$GREEN"
+print_message "脚本遇到问题请加群寻找解决方法：551081559" "$GREEN"
+
 # 获取用户输入的端口号
 read -p "请输入noVNC服务端口号(默认6080): " port1
 read -p "请输入Red服务端口号(默认15360): " port2

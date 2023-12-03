@@ -47,7 +47,7 @@ print_message "脚本遇到问题请加群寻找解决方法：551081559" "$GREE
 
 # 获取用户输入的端口号
 read -p "请输入noVNC服务端口号(默认6080): " port1
-read -p "请输入Red服务端口号(默认15360): " port2
+read -p "请输入Red服务端口号(默认16530): " port2
 read -p "请输入Satori服务端口号(默认5500): " port3
 
 # 检查输入是否为空，如果为空则使用默认值
@@ -56,7 +56,7 @@ if [[ -z "$port1" ]]; then
 fi
 
 if [[ -z "$port2" ]]; then
-  port2=15360
+  port2=16530
 fi
 
 if [[ -z "$port3" ]]; then

@@ -102,6 +102,10 @@ if [ -z "$url" ]; then
   url="127.0.0.1:16530"
 fi
 
+if [[ "$url" == "http://"* ]]; then
+    url=${url/http:\/\//}
+fi
+
 if [ -z "$token" ]; then
   echo "请输入您的Token"
   exit 1

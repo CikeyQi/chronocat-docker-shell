@@ -114,13 +114,13 @@ fi
 
 # 将用户输入的连接名称，链接地址和Token写入ws-plugin/config/config/ws-config.yaml
 cat << EOF >> ./plugins/ws-plugin/config/config/ws-config.yaml
-  - name: chronocat
-    address: 127.0.0.1:16530
+  - name: $name
+    address: $url
     type: 4
     reconnectInterval: 5
     maxReconnectAttempts: 0
-    accessToken: 57361f4933be98af715a22a6708884c09d3a4237effa001b37193f41bfd2431b
-    uin: 3146312184
+    accessToken: $token
+    uin: $uin
 EOF
 
 # 如果是Miao-Yunzai，则提醒用户以后启动使用node apps启动

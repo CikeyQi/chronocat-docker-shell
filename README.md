@@ -45,3 +45,4 @@ bash <(curl -L https://sourl.cn/iMPpkw)
 ## 致谢
 
 - Chronocat项目：[chrononeko](https://github.com/chrononeko/)
+- Docker镜像：[he0119/chronocat-docker](https://github.com/he0119/chronocat-docker)

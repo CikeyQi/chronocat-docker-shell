@@ -114,6 +114,7 @@ fi
 
 # 将用户输入的连接名称，链接地址和Token写入ws-plugin/config/config/ws-config.yaml
 cat >> ./plugins/ws-plugin/config/config/ws-config.yaml << EOF
+
   - name: $name
     address: $url
     type: 4

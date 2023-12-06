@@ -72,6 +72,11 @@ if [ "$version" == "2" ]; then
     wget https://gitee.com/Zyy955/Yunzai-Bot-plugin/raw/main/apps.js -O apps.js
 fi
 
+# 如果没有则新建ws-plugin/config/config/目录
+if [ ! -d "./plugins/ws-plugin/config/config/" ]; then
+    mkdir ./plugins/ws-plugin/config/config/
+fi
+
 # 检查是否存在ws-plugin/config/config/ws-config.yaml，如果存在则删除
 if [ -f "./plugins/ws-plugin/config/config/ws-config.yaml" ]; then
     rm ./plugins/ws-plugin/config/config/ws-config.yaml

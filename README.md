@@ -34,7 +34,13 @@ bash <(curl -L https://sourl.cn/ihTgTy)
 
 ### 安装与配置ws-plugin
 
-参考[ws-plugin](https://gitee.com/xiaoye12123/ws-plugin/)
+在Linux终端中输入
+
+``` shell
+bash <(curl -L https://sourl.cn/iMPpkw)
+```
+
+按照提示操作即可
 
 ## 致谢
 

@@ -18,7 +18,7 @@ print_message "本脚本将安装并配置ws-plugin，请先部署NTQQ后再使�
 print_message "一键部署NTQQ脚本：https://github.com/CikeyQi/chronocat-docker-shell" "$GREEN"
 print_message "脚本遇到问题请加群寻找解决方法：551081559" "$GREEN"
 
-print_message "正在检查环境..." "$GREEN"
+print_message "正在检查环境..." "$YELLOW"
 
 # 检查是否安装了Git
 if ! command -v git &> /dev/null; then
@@ -40,16 +40,16 @@ fi
 
 # 检查当前目录是否存在plugins/ws-plugin文件夹
 if [ -d "plugins/ws-plugin" ]; then
-    print_message "检测到您已经安装了ws-plugin，正在删除..." "$GREEN"
+    print_message "检测到您已经安装了ws-plugin，正在删除..." "$YELLOW"
     rm -rf ./plugins/ws-plugin/
 fi
 
-print_message "正在克隆ws-plugin仓库..." "$GREEN"
+print_message "正在克隆ws-plugin仓库..." "$YELLOW"
 
 # 克隆ws-plugin仓库到plugins/ws-plugin目录
 git clone --depth=1 -b red https://gitee.com/xiaoye12123/ws-plugin.git ./plugins/ws-plugin/
 
-print_message "正在安装依赖..." "$GREEN"
+print_message "正在安装依赖..." "$YELLOW"
 
 # 安装依赖
 pnpm install --filter=ws-plugin
@@ -68,7 +68,7 @@ fi
 
 # 如果是Miao-Yunzai，则下载apps.js放在根目录
 if [ "$version" == "2" ]; then
-    print_message "正在下载配置文件..." "$GREEN"
+    print_message "正在下载配置文件..." "$YELLOW"
     wget https://gitee.com/Zyy955/Yunzai-Bot-plugin/raw/main/apps.js -O apps.js
 fi
 
@@ -82,7 +82,7 @@ if [ -f "./plugins/ws-plugin/config/config/ws-config.yaml" ]; then
     rm ./plugins/ws-plugin/config/config/ws-config.yaml
 fi
 
-print_message "正在写入配置文件..." "$GREEN"
+print_message "正在写入配置文件..." "$YELLOW"
 
 # 将ws-plugin/config/default_config/下的ws-config.yaml复制到ws-plugin/config/config/
 cp ./plugins/ws-plugin/config/default_config/ws-config.yaml ./plugins/ws-plugin/config/config/
@@ -90,7 +90,7 @@ cp ./plugins/ws-plugin/config/default_config/ws-config.yaml ./plugins/ws-plugin/
 # 等待用户输入连接名称，链接地址和Token，机器人QQ
 read -p "请输入您的连接名称(默认chronocat)：" name
 read -p "请输入您的链接地址(默认127.0.0.1:16530)：" url
-read -p "请输入您的Token：" token
+read -p "请输入您的Red Token：" token
 read -p "请输入您的机器人QQ号：" uin
 
 # 检查用户输入是否合法，如果不输入则使用默认值
@@ -107,7 +107,7 @@ if [[ "$url" == "http://"* ]]; then
 fi
 
 if [ -z "$token" ]; then
-  echo "请输入您的Token"
+  echo "请输入您的Red Token"
   exit 1
 fi
 
@@ -130,10 +130,13 @@ EOF
 
 # 如果是Miao-Yunzai，则提醒用户以后启动使用node apps启动
 if [ "$version" == "2" ]; then
-    print_message "请以后使用node apps启动Yunzai-Bot" "$YELLOW"
+    print_message "请以后使用 node apps 启动Yunzai-Bot" "$YELLOW"
 fi
 
 print_message "配置成功，将在5秒后启动Yunzai-Bot" "$GREEN"
+
+# 等待5秒
+sleep 5
 
 # 如果是TRSS-Yunzai，则使用node app启动，否则使用node apps启动
 if [ "$version" == "1" ]; then

@@ -110,6 +110,20 @@ docker pull he0119/chronocat-docker
 read -p "请输入容器名称(默认随机): " container_name
 read -p "请输入VNC服务密码(默认password): " password
 
+# 获取用户输入，选择网络模式
+print_message "请选择网络模式：" "$YELLOW"
+echo "1. 使用默认网络模式"
+echo "2. 使用 host 网络模式"
+read -p "请输入选项 (默认为1): " network_option
+network_option=${network_option:-1}
+
+# 根据用户选择设置网络模式参数
+if [ "$network_option" == "2" ]; then
+  network_mode="--network=host"
+else
+  network_mode=""
+fi
+
 # 检查密码是否为空，如果为空则使用默认密码
 if [ -z "$password" ]; then
   password="password"
@@ -145,7 +159,7 @@ vnc_link="http://$ip:$VNCPORT/"
 print_message "正在启动 ChronoCat 容器..." "$YELLOW"
 
 # 静默启动容器
-docker run -it -d -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password --network=host --name $container_name he0119/chronocat-docker >> $container_name-docker.log 2>&1
+docker run -it -d -p $RedPORT:16530 -p $VNCPORT:80 -p $SatoriPORT:5901 -e VNC_PASSWD=$password $network_mode --name $container_name he0119/chronocat-docker >> $container_name-docker.log 2>&1
 
 # 等待10秒
 sleep 10

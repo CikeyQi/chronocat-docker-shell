@@ -113,7 +113,7 @@ read -p "请输入VNC服务密码(默认password): " password
 # 获取用户输入，选择网络模式
 print_message "请选择网络模式：" "$YELLOW"
 echo "1. 使用默认网络模式"
-echo "2. 使用 host 网络模式"
+echo "2. 使用 Host 网络模式"
 read -p "请输入选项 (默认为1): " network_option
 network_option=${network_option:-1}
 
